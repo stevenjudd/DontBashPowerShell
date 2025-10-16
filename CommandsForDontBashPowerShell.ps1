@@ -1,30 +1,30 @@
 #region Demo1
-# bash
-ps aux | grep -v grep | grep -i screen | awk '{print $2}' | xargs kill
+# Bash
+find ./demo -type f -name '*.conf' -exec cp {} ./demo/backup \;
 # PowerShell
-Get-Process screen | Stop-Process
+Copy-Item ./demo/*.conf ./demo/backup
 #endregion
 
 #region Demo2
 # bash
-ps aux | grep -v grep | grep -i screen | awk '{print $2}' | xargs -n1 echo kill
+Get-Process aux | grep -v grep | grep -i screen | awk '{print $2}' | xargs kill
 # PowerShell
-gps screen | spps -WhatIf
-
+Get-Process screen | Stop-Process
 #endregion
 
 #region Demo3
-# Bash
-find ~/demo -type f -name '*.conf' -exec cp {} ~/demo/backup \;
+# bash
+Get-Process aux | grep -v grep | grep -i screen | awk '{print $2}' | xargs -n1 echo kill
 # PowerShell
-cpi ~/demo/*.conf ~/demo/backup
+Get-Process screen | Stop-Process -WhatIf
+
 #endregion
 
 #region Demo4
 # Bash
-find ~/demo/certs -name '*.pem' -exec sh -c 'file="{}"; san=$(openssl x509 -in "$file" -noout -text | grep -A1 "Subject Alternative Name" | tail -n +2 | sed "s/ *DNS://g" | tr "\n" ", " | sed "s/, $//"); echo "Name: $(basename "$file")"; echo "SAN: $san"; echo' \;
+find ./demo/certs -name '*.pem' -exec sh -c 'file="{}"; san=$(openssl x509 -in "$file" -noout -text | grep -A1 "Subject Alternative Name" | tail -n +2 | sed "s/ *DNS://g" | tr "\n" ", " | sed "s/, $//"); echo "Name: $(basename "$file")"; echo "SAN: $san"; echo' \;
 # PowerShell
-gci ~/demo/certs/*.pem | select Name, @{n = 'SAN'; e = { (openssl x509 -in $_ -noout -text | grep -A 1 'Subject Alternative Name' | tail -n +2) -replace '^\s+', '' } }
+Get-ChildItem ./demo/certs/*.pem | Select-Object Name, @{n = 'SAN'; e = { (openssl x509 -in $_ -noout -text | grep -A 1 'Subject Alternative Name' | tail -n +2) -replace '^\s+', '' } }
 #endregion
 
 #region Demo5
