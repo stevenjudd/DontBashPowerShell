@@ -1,48 +1,48 @@
 function Get-sjSyslog {
   param (
-    [string]$SyslogPath = '/var/log/syslog'
+    [string]$SyslogPath = '/var/log/syslog' # Default syslog path
   )
   
   # Define regex patterns
   $regexSystemd = @(
-    '^',
-    '(?<Date>\w{3}\s+\d+\s+\d{2}:\d{2}:\d{2})',
-    '\s+',
-    '(?<Host>\S+)',
-    '\s+',
-    '(?<Process>\w+)',
-    '\[',
-    '(?<PID>\d+)',
-    '\]:',
-    '\s+',
-    '(?<Message>.+)',
-    '$'
+    '^',                      # Start of line
+    '(?<Date>\w{3}\s+\d+\s+\d{2}:\d{2}:\d{2})', # Capture date in 'MMM dd HH:mm:ss' format
+    '\s+',                    # One or more spaces
+    '(?<Host>\S+)',           # Capture hostname (non-space characters)
+    '\s+',                    # One or more spaces
+    '(?<Process>\w+)',        # Capture process name (word characters)
+    '\[',                     # Match literal '['
+    '(?<PID>\d+)',            # Capture PID (digits)
+    '\]:',                    # Match literal ']:'
+    '\s+',                    # One or more spaces
+    '(?<Message>.+)',         # Capture the rest of the line as message
+    '$'                       # End of line
   ) -join ''
   
   $regexDashM = @(
-    '^',
-    '(?<Date>\w{3}\s+\d+\s+\d{2}:\d{2}:\d{2})',
-    '\s+',
-    '(?<Host>\S+)',
-    '\s+',
-    '-m:',
-    '\s+',
-    '(?<Message>.+)',
-    '$'
+    '^',                      # Start of line
+    '(?<Date>\w{3}\s+\d+\s+\d{2}:\d{2}:\d{2})', # Capture date in 'MMM dd HH:mm:ss' format
+    '\s+',                    # One or more spaces
+    '(?<Host>\S+)',           # Capture hostname (non-space characters)
+    '\s+',                    # One or more spaces
+    '-m:',                    # Match literal '-m:'
+    '\s+',                    # One or more spaces
+    '(?<Message>.+)',         # Capture the rest of the line as message
+    '$'                       # End of line
   ) -join ''
   
   $regexKernel = @(
-    '^',
+    '^',                      # Start of line
     '(?<Date>\w{3}\s+\d+\s+\d{2}:\d{2}:\d{2})', # Match date format
-    '\s+',
-    '(?<Host>\S+)',
-    '\s+',
-    'kernel:',
-    '\s+\[\s*',
-    '(?<PID>[\d\.]+)',
-    '\]\s+',
-    '(?<Message>.+)',
-    '$'
+    '\s+',                    # One or more spaces
+    '(?<Host>\S+)',           # Non-space characters for hostname
+    '\s+',                    # One or more spaces
+    'kernel:',                # Match the literal string 'kernel:'
+    '\s+\[\s*',               # Match one or more spaces, then '[', then optional spaces
+    '(?<PID>[\d\.]+)',        # Capture PID: one or more digits or dots (for kernel threads)
+    '\]\s+',                  # Match ']', then one or more spaces
+    '(?<Message>.+)',         # Capture the rest of the line as the message
+    '$'                       # End of line
   ) -join ''
 
   # Define year for date parsing
@@ -88,4 +88,4 @@ function Get-sjSyslog {
 }
 
 # test cases
-Get-sjSyslog
+# Get-sjSyslog

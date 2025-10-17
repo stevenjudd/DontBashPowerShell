@@ -1,6 +1,6 @@
 #region Demo1
 # Bash
-find ./demo -type f -name '*.conf' -exec cp {} ./demo/backup \;
+find ./demo -maxdepth 1 -type f -name '*.conf' -exec cp {} ./demo/backup \;
 # PowerShell
 Copy-Item ./demo/*.conf ./demo/backup
 #endregion
